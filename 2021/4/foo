@@ -1,0 +1,17 @@
+/home/azanar/src/aoc/2021/4/node_modules/lodash/lodash.js:10865
+        throw new TypeError(FUNC_ERROR_TEXT);
+        ^
+
+TypeError: Expected a function
+    at Function.rest (/home/azanar/src/aoc/2021/4/node_modules/lodash/lodash.js:10865:15)
+    at winning (/home/azanar/src/aoc/2021/4/4.coffee:73:27)
+    at Interface.<anonymous> (/home/azanar/src/aoc/2021/4/4.coffee:20:21)
+    at Interface.emit (node:events:402:35)
+    at Interface.close (node:internal/readline/interface:496:10)
+    at ReadStream.ontermend (node:internal/readline/interface:236:10)
+    at ReadStream.emit (node:events:390:28)
+    at endReadableNT (node:internal/streams/readable:1340:12)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+
+Node.js v17.1.0
