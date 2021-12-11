@@ -12,13 +12,13 @@
 
 (defn horizontal? [l]
   (= 
-    (:x (:head l))
-    (:x (:tail l))))
+    (:y (:head l))
+    (:y (:tail l))))
 
 (defn vertical? [l]
   (= 
-    (:y (:head l))
-    (:y (:tail l))))
+    (:x (:head l))
+    (:x (:tail l))))
 
 
 (defn diagonal? [l]
@@ -26,41 +26,34 @@
       (not (horizontal? l))
       (not (vertical? l))))
 
+(defn cart [colls]
+  (if (empty? colls)
+    '(())
+    (for [more (cart (rest colls))
+          x (first colls)]
+      (cons x more))))
 
+(defn ints-between [a b]
+  (if (< a b)
+    (range a (inc b))
+    (reverse (range b (inc a)))))
 
-(defn within? [l p]
-  (let [y-min (min (:y (:head l)) (:y (:tail l)))
-        y-max (max (:y (:head l)) (:y (:tail l)))
-        x-min (min (:x (:head l)) (:x (:tail l)))
-        x-max (max (:x (:head l)) (:x (:tail l)))]
-
+(defn coords [l]
+  (let [x-list (ints-between (:x (:head l)) (:x (:tail l)))
+        y-list (ints-between (:y (:head l)) (:y (:tail l)))]
   (cond
-    (vertical? l) (and 
-                    (= (:x p) (:x (:head l)))
-                    (<= y-min (:y p) y-max))
-    (horizontal? l) (and 
-                    (= (:y p) (:y (:head l)))
-                    (<= x-min (:x p) x-max))
+    (diagonal? l)
+      (map list x-list y-list)
+    :else
+      (cart (list x-list y-list)))))
 
-    :else false)))
 
-(let [lines (filter 
-           #(not (diagonal? %1))
-             (map
+(let [lines (map
               parse
               (str/split 
-                (slurp "input.txt") 
-                #"\n")))]
-  (map (count (filter (within? line point) (range min (inc max))
-  (println (apply min (concat 
-                  (map #(:x (:head %1)) lines) 
-                  (map #(:x (:tail %1)) lines))))
-  (println (apply max (concat 
-                  (map #(:x (:head %1)) lines) 
-                  (map #(:x (:tail %1)) lines))))
-  (println (apply min (concat 
-                  (map #(:y (:head %1)) lines) 
-                  (map #(:y (:tail %1)) lines))))
-  (println (apply max (concat 
-                  (map #(:y (:head %1)) lines) 
-                  (map #(:y (:tail %1)) lines)))))
+                (slurp *in*) 
+                #"\n"))
+      points (apply concat (map coords lines))
+      freq (frequencies points)]
+  (println (count (filter #(> (val %1) 1) freq))))
+  ;(println (map (fn [p] (filter (fn [l] (within? l p)) lines)) points)))
