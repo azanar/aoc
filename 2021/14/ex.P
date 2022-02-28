@@ -1,0 +1,8 @@
+:- initialization(run, main).
+
+step([], _, _, 0).
+step([], New, Dict, S) :- step(New, [], Dict, Ss), S is Ss + 1.
+step([Head|Rest], AppendedNew, Dict, S) :- step(Rest, New, Dict, S), get_dict(Head, Dict, HeadTrans), append([HeadTrans], New, AppendedNew).
+
+parse :- 
+run :- step(['a','b','c'], Out, mapping{a:'b', b:'c', c:'a'}, 2), write(Out).
