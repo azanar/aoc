@@ -1,1 +1,1 @@
-cd 2021/12 && javac *.java && java Twelve;
+cd 2021/14 && javac *.java && java Twelve;
